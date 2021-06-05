@@ -1,0 +1,48 @@
+:root {
+  --dark-blue: hsl(209, 23%, 22%);
+  --very-dark-blue: hsl(207, 26%, 17%);
+  --white: hsl(0, 0%, 100%);
+}
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-style: none;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--very-dark-blue);
+  color: var(--white);
+  font-family: "Nunito Sans", sans-serif;
+}
+
+nav {
+  display: flex;
+  background-color: var(--dark-blue);
+  align-items: center;
+  padding: 4vh 5vw;
+}
+
+nav > em {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+h1 {
+  color: var(--white);
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+.all {
+  margin: 0 5vw;
+}
