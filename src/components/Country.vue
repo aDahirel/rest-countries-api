@@ -1,5 +1,6 @@
 <template>
-  <div class="all">
+  <Circle id="loading" v-if="pending" />
+  <div class="all" v-else>
     <router-link :to="{ name: 'home' }">
       <div id="back">
         <em class="fas fa-arrow-left"></em>
@@ -33,7 +34,8 @@
             </li>
             <li>
               <p>
-                Region : <span class="country-text">{{ country.region }}</span>
+                Region :
+                <span class="country-text">{{ country.region }}</span>
               </p>
             </li>
             <li>
@@ -102,17 +104,23 @@
 
 <script>
 import axios from "axios";
+import Circle from "vue-loading-spinner/src/components/Circle.vue";
 
 export default {
+  components: {
+    Circle,
+  },
   data() {
     return {
       country: [],
       borderCountries: [],
       alpha3Code: [],
       alpha3CodeToString: [],
+      pending: false,
     };
   },
   mounted() {
+    this.pending = true;
     axios
       .get(
         `https://restcountries.eu/rest/v2/name/${this.$route.params.name}?fullText=true`
@@ -128,7 +136,10 @@ export default {
           .then((response) => (this.borderCountries = response.data))
           .catch((error) => console.error(error));
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
+      .finally(() => {
+        this.pending = false;
+      });
   },
 };
 </script>
@@ -186,5 +197,12 @@ h2 {
   border-radius: 5px;
   font-size: 12px;
   box-shadow: 0 2px 7px rgba(0, 0, 0, 0.1);
+}
+#loading {
+  display: block;
+  margin: auto;
+  margin-top: 30vh;
+  width: 20vw !important;
+  height: 20vw !important;
 }
 </style>

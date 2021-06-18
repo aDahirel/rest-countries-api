@@ -1,5 +1,6 @@
 <template>
-  <div class="all">
+  <Circle id="loading" v-if="pending" />
+  <div class="all" v-else>
     <div id="filter">
       <div id="search">
         <em class="fas fa-search"></em>
@@ -53,14 +54,19 @@
 
 <script>
 import axios from "axios";
+import Circle from "vue-loading-spinner/src/components/Circle.vue";
 
 export default {
   name: "Home",
+  components: {
+    Circle,
+  },
   data() {
     return {
       countries: [],
       search: "",
       region: "",
+      pending: false,
     };
   },
   computed: {
@@ -81,10 +87,14 @@ export default {
     },
   },
   mounted() {
+    this.pending = true;
     axios
       .get("https://restcountries.eu/rest/v2/all")
       .then((res) => (this.countries = res.data))
-      .catch((err) => console.log(err.message));
+      .catch((err) => console.log(err.message))
+      .finally(() => {
+        this.pending = false;
+      });
   },
 };
 </script>
@@ -180,5 +190,13 @@ select:hover {
 
 option {
   margin: 20px;
+}
+
+#loading {
+  display: block;
+  margin: auto;
+  margin-top: 30vh;
+  width: 20vw !important;
+  height: 20vw !important;
 }
 </style>
